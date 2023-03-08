@@ -1,0 +1,29 @@
+# Lista de usuários de sistema:
+guest10
+guest11
+guest12
+guest13
+
+# Lista de usuários ADM:
+ADM_carlos
+ADM_maria
+ADM_joao
+# Lista de usuários VEN:
+VEN_debora 
+VEN_sebastiana 
+VEN_roberto 
+# Lista de usuários SEC:
+SEC_josefina 
+SEC_amanda 
+SEC_rogerio 
+
+# Diretórios
+/publico
+/adm
+/ven
+/sec
+
+# Grupos de usuários
+GRP_ADM
+GRP_VEN
+GRP_SEC

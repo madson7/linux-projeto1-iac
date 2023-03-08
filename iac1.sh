@@ -1,31 +1,36 @@
 #!/bin/bash
 
+echo "Criando usuários do sistema...."
+
+for USER in $(grep -E 'guest' lista_objetos.txt); do
+    useradd $USER -c "Usuário convidado" -s /bin/bash -m -p $(openssl passwd -crypt Senha123)
+    passwd $USER -e
+done
+
 echo "Criando diretórios..."
 
-mkdir /publico
-mkdir /adm
-mkdir /ven
-mkdir /sec
+for DIR in $(grep -E '/' lista_objetos.txt); do
+    mkdir $DIR
+done
 
 echo "Criando grupos de usuários..."
 
-groupadd GRP_ADM
-groupadd GRP_VEN
-groupadd GRP_SEC
+for GRP in $(grep -E 'GRP' lista_objetos.txt); do
+    groupadd $GRP
+done
 
 echo "Criando usuários..."
 
-useradd carlos -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_ADM
-useradd maria -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_ADM
-useradd joao -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_ADM
+for USER in $(grep -E 'ADM_' lista_objetos.txt | sed 's/ADM_\(.*\)/\1/'); do
+    useradd $USER -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_ADM
+done
+for USER in $(grep -E 'VEN_' lista_objetos.txt | sed 's/VEN_\(.*\)/\1/'); do
+    useradd $USER -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_ADM
+done
+for USER in $(grep -E 'SEC_' lista_objetos.txt | sed 's/SEC_\(.*\)/\1/'); do
+    useradd $USER -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_ADM
+done
 
-useradd debora -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_VEN
-useradd sebastiana -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_VEN
-useradd roberto -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_VEN
-
-useradd josefina -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_SEC
-useradd amanda -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_SEC
-useradd rogerio -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_SEC
 
 echo "Especificando permissões dos diretórios...."
 
@@ -39,4 +44,3 @@ chmod 770 /sec
 chmod 777 /publico
 
 echo "Fim....."
-
